@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Header",
   computed: {
-    ...mapGetters(["cart"]),
+    ...mapState(["cart"]),
     totalQty() {
       return this.cart.reduce((a, b) => a + b.qty, 0);
     },

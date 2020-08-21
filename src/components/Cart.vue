@@ -1,9 +1,9 @@
 <template>
   <div class="cart">
-    <div v-if="!cart.length" class="alert alert-secondary" role="alert">No Product in cart!</div>
+    <div v-if="!cart.length && !orderPlaced" class="alert alert-danger" role="alert">No Product in cart!</div>
     <div
       v-if="orderPlaced"
-      @click="() => this.orderPlaced=false"
+      @click="orderPlaced=false"
       class="alert alert-success alert-dismissible fade show"
       role="alert"
     >
@@ -20,7 +20,7 @@
     <ul class="list-group">
       <li class="list-group-item" v-for="item in cart" :key="item.id">
         <button
-          @click="removeItemFromCart(item.id)"
+          @click="removeFromCart(item.id)"
           type="button"
           class="close"
           data-dismiss="modal"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "Cart",
@@ -68,13 +68,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["cart"]),
+    ...mapState(["cart"]),
     totalPrice() {
       return this.cart.reduce((a, b) => a + b.qty * b.price, 0);
     }
   },
+  watch: {
+    cart(value){
+      if (value.length) {
+        this.orderPlaced = false;
+      }
+    }
+  },
   methods: {
-    ...mapActions(["removeItemFromCart", "addQty", "reduceQty", "emptyCart"]),
+    ...mapMutations(["removeFromCart", "addQty", "reduceQty", "emptyCart"]),
     placeOrder() {
       this.isProcessing = true;
       setTimeout(() => {
@@ -88,6 +95,14 @@ export default {
 </script>
 
 <style scoped>
+.cart {
+  background-color: rgb(238, 238, 238);
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  min-width: 25rem
+}
+
 .media {
   width: 90%;
   text-align: left;

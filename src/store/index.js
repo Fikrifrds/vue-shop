@@ -9,31 +9,11 @@ const state = {
   cart: [],
 };
 
-const getters = {
-  products: (state) => state.products,
-  cart: (state) => state.cart,
-};
+// const getters = {
+//   products: (state) => state.products,
+//   cart: (state) => state.cart,
+// };
 
-const actions = {
-  getProducts({ commit }) {
-    commit("getProductData");
-  },
-  addItemToCart({ commit }, item) {
-    commit("addToCart", item);
-  },
-  removeItemFromCart({ commit }, id) {
-    commit("removeFromCart", id);
-  },
-  addQty({ commit }, id) {
-    commit("addQty", id);
-  },
-  reduceQty({ commit }, id) {
-    commit("reduceQty", id);
-  },
-  emptyCart({ commit }) {
-    commit("emptyCart");
-  }
-};
 const mutations = {
   getProductData(state) {
     state.products = products;
@@ -68,7 +48,5 @@ const mutations = {
 
 export default new Vuex.Store({
   state,
-  getters,
-  actions,
   mutations,
 });

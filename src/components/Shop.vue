@@ -10,7 +10,7 @@
       <div class="card-body">
         <p class="card-title">{{ item.title }}</p>
         <p class="card-text">$ {{ item.price.toLocaleString() }}</p>
-        <button class="btn btn-primary" @click="addItemToCart(item)">
+        <button class="btn btn-primary" @click="addToCart(item); scrollToTop()">
           Add to cart
         </button>
       </div>
@@ -19,18 +19,24 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "Shop",
   mounted() {
-    this.getProducts();
+    this.getProductData();
   },
   computed: {
-    ...mapGetters(["products"]),
+    ...mapState(["products"]),
   },
   methods: {
-    ...mapActions(["addItemToCart", "getProducts"]),
+    ...mapMutations(["addToCart", "getProductData"]),
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
   },
 };
 </script>
